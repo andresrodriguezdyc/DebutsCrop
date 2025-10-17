@@ -13,58 +13,78 @@
 
     /* --- ENCABEZADO Y LOGO --- */
     header {
-      position: absolute;
+      position: fixed; /* menú fijo mientras el scroll pasa por el banner */
       top: 0;
       width: 100%;
-      z-index: 10;
+      z-index: 20;
       text-align: left;
       padding: 10px 30px;
       box-sizing: border-box;
+      transition: background 0.4s ease;
+      background: transparent;
     }
 
     .logo {
       width: 180px;
-      margin-left: 40px; /* mueve el logo hacia la derecha */
+      margin-left: 40px;
     }
 
     /* --- MENÚ TRANSPARENTE --- */
     nav {
-      background-color: rgba(200, 200, 200, 0.4); /* gris claro transparente */
+      background-color: rgba(255, 255, 255, 0.25);
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 30px;
       padding: 12px;
       border-radius: 20px;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(6px);
       margin-top: 10px;
+      transition: background 0.4s ease;
     }
 
     nav a {
-      color: #222;
+      color: #fff;
       text-decoration: none;
       font-weight: bold;
       transition: color 0.3s;
     }
 
     nav a:hover {
-      color: #3a9d3a;
+      color: #8aff8a;
     }
 
-    /* --- EFECTO PARALLAX EN EL BANNER --- */
+    /* --- BANNER PARALLAX SIN SOMBREADO --- */
     #inicio {
       height: 100vh;
-      background-image: url("Imagenes/photoBanner.png");
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed; /* efecto scroll */
+      background: url("Imagenes/photoBanner.png") center -250px / cover fixed; /* sube la imagen */
       position: relative;
+    }
+
+    /* --- EFECTO AL SALIR DEL BANNER --- */
+    body.scrolled header {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    body.scrolled nav {
+      background-color: rgba(240, 240, 240, 0.8);
+    }
+
+    body.scrolled nav a {
+      color: #222;
     }
 
     /* --- DESACTIVA PARALLAX EN MÓVILES --- */
     @media (max-width: 768px) {
       #inicio {
         background-attachment: scroll;
+        background-position: center;
+      }
+      nav a {
+        color: #222;
+      }
+      header {
+        background: rgba(255, 255, 255, 0.9);
       }
     }
 
@@ -80,7 +100,7 @@
       z-index: 5;
       border-top-left-radius: 40px;
       border-top-right-radius: 40px;
-      margin-top: -100px;
+      margin-top: -80px;
     }
 
     #bienvenida h2 {
@@ -101,15 +121,31 @@
     </nav>
   </header>
 
-  <!-- Banner con efecto de scroll -->
-  <section id="inicio">
-  </section>
+  <!-- Banner con efecto parallax (sin sombreado) -->
+  <section id="inicio"></section>
 
-  <!-- Contenido posterior -->
+  <!-- Sección de bienvenida -->
   <section id="bienvenida">
     <h2>Bienvenidos a Debuts Crop Grow Shop</h2>
     <p>Tu tienda especializada en cultivo, asesoría y productos para growers en Medellín.</p>
   </section>
+
+  <script>
+    // Script para cambiar el fondo del menú al salir del banner
+    window.addEventListener('scroll', function() {
+      const body = document.body;
+      if (window.scrollY > window.innerHeight * 0.8) {
+        body.classList.add('scrolled');
+      } else {
+        body.classList.remove('scrolled');
+      }
+    });
+  </script>
+  <section id="inicio">
+    <img src="Imagenes\photoBanner.png" alt="Banner panorámico de Medellín" class="banner">
+  </section>
+
+  
 
 </body>
 </html>
